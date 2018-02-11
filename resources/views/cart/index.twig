@@ -42,10 +42,12 @@
   <div class="col-md-4">
     {% if basket.itemCount and basket.subTotal %}
       <div class="card">
+
         <h4>Cart summary</h4>
         <hr>
         {% include 'cart/partials/summary.twig' %}
-        <a class="btn btn-primary" href="#" role="button">Checkout</a>
+        <a class="btn btn-primary" href="{{ path_for('order.index') }}" role="button">Checkout</a>
+
       </div>
     {% endif %}
   </div>
