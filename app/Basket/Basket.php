@@ -32,7 +32,7 @@ class Basket{
       throw new QuantityExceededException;
     }
 
-    if( $quantiy == 0){
+    if ($quantity == 0){
       $this->remove($product);
       return;
     }
@@ -106,7 +106,7 @@ class Basket{
     foreach($this->all() as $item) {
       if(!$item->hasStock($item->quantity)){
         $this->update($item, $item->stock);
-      }else if ($item->hasStock(1) && $item->quantity === 0){
+      }else if ($item->hasStock(1) && $item->quantity == 0){
         $this->update($item, 1);
       }
     }
