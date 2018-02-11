@@ -22,6 +22,7 @@ class CartController{
 
   public function index(Request $request, Response $response, Twig $view, Product $product){
 
+      $this->basket->refresh();
       return $view->render($response, 'cart/index.twig');
   }
 

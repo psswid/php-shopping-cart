@@ -3,13 +3,13 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarText">
+
 
 
     <a href="{{ path_for('cart.index') }}">
       <span class="navbar-text glyphicon glyphicon-shopping-cart">
-        Cart(0)
+        Cart({{ basket.itemCount }})
       </span>
     </a>
-  </div>
+
 </nav>
