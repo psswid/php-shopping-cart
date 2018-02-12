@@ -50,7 +50,7 @@ class OrderController{
       // var_dump($validation->errors);
       // die();
 
-      return $response->withRedirect($this->router('order.index'));
+      return $response->withRedirect($this->router->pathFor('order.index'));
     }
 
     die('create order');

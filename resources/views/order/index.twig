@@ -10,14 +10,28 @@
 
             <h3>Your detalis</h3>
             <hr>
-            <div class="form-group">
+
+            <div class="form-group {% if errors.email %} has-danger{% endif %}">
               <label for="email">Email</label>
-              <input type="email" name="email" id="email" class="form-control">
+              <input type="email" name="email" id="email" class="form-control" value="{{ old.email }}">
+
+              {% if errors.email %}
+              <small class="text-muted">
+                {{ errors.email | first }}
+              </small>
+              {% endif %}
             </div>
 
-            <div class="form-group">
-              <label for="name">Full mail</label>
-              <input type="text" name="name" id="name" class="form-control">
+            <div class="form-group{% if errors.name %} has-danger{% endif %}">
+              <label for="name">Full name</label>
+              <input type="text" name="name" id="name" class="form-control" value="{{ old.name }}">
+
+              {% if errors.name %}
+              <small class="text-muted">
+                {{ errors.name | first }}
+              </small>
+              {% endif %}
+
             </div>
 
           </div>
@@ -26,24 +40,52 @@
             <h3>Shipping adress</h3>
             <hr>
 
-            <div class="form-group">
+            <div class="form-group{% if errors.address1 %} has-danger{% endif %}">
               <label for="address1">Address line 1</label>
-              <input type="text" name="address1" id="address1" class="form-control">
+              <input type="text" name="address1" id="address1" class="form-control" value="{{ old.address1 }}">
+
+              {% if errors.address1 %}
+              <small class="text-muted">
+                {{ errors.address1 | first }}
+              </small>
+              {% endif %}
+
             </div>
 
-            <div class="form-group">
+            <div class="form-group{% if errors.address2 %} has-danger{% endif %}">
               <label for="address2">Address line 2</label>
-              <input type="text" name="address2" id="address2" class="form-control">
+              <input type="text" name="address2" id="address2" class="form-control" value="{{ old.address2 }}">
+
+              {% if errors.address2 %}
+              <small class="text-muted">
+                {{ errors.address2 | first }}
+              </small>
+              {% endif %}
+
             </div>
 
-            <div class="form-group">
+            <div class="form-group{% if errors.city %} has-danger{% endif %}">
               <label for="city">City</label>
-              <input type="text" name="city" id="city" class="form-control">
+              <input type="text" name="city" id="city" class="form-control" value="{{ old.city }}">
+
+              {% if errors.city %}
+              <small class="text-muted">
+                {{ errors.city | first }}
+              </small>
+              {% endif %}
+
             </div>
 
-            <div class="form-group">
+            <div class="form-group{% if errors.postal_code %} has-danger{% endif %}">
               <label for="postal_code">Postal code</label>
-              <input type="text" name="postal_code" id="postal_code" class="form-control">
+              <input type="text" name="postal_code" id="postal_code" class="form-control" value="{{ old.postal_code }}">
+
+              {% if errors.postal_code %}
+              <small class="text-muted">
+                {{ errors.postal_code | first }}
+              </small>
+              {% endif %}
+
             </div>
 
           </div>
