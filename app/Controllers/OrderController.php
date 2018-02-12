@@ -5,12 +5,14 @@ namespace Cart\Controllers;
 use Slim\Views\Twig;
 use Slim\Router;
 use Cart\Models\Product;
+use Cart\Models\Customer;
+use Cart\Models\Address;
 use Cart\Basket\Basket;
 use Cart\Validation\Forms;
+use Cart\Validation\Forms\OrderForm;
 use Cart\Validation\Contracts\ValidatorInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Cart\Validation\Forms\OrderForm;
 
 class OrderController{
 
@@ -35,7 +37,7 @@ class OrderController{
     return $view->render($response, 'order/index.twig');
   }
 
-  public function create(Request $request, Response $response){
+  public function create(Request $request, Response $response, Customer $customer, Address $address){
 
     $this->basket->refresh();
 
@@ -45,14 +47,51 @@ class OrderController{
 
     $validation = $this->validator->validate($request, OrderForm::rules());
 
-    if($validation->fails()){
+    // if($validation->fails()){
+    //
+    //   // var_dump($validation->errors);
+    //   // die();
+    //
+    //   return $response->withRedirect($this->router->pathFor('order.index'));
+    // }
 
-      // var_dump($validation->errors);
-      // die();
+    $hash = bin2hex(random_bytes(32));
 
-      return $response->withRedirect($this->router->pathFor('order.index'));
+    $customer = $customer->firstOrCreate([
+      'email' => $request->getParam('email'),
+      'name' => $request->getParam('name')
+    ]);
+
+    $address = $address->firstOrCreate([
+      'address1' => $request->getParam('address1'),
+      'address2' => $request->getParam('address2'),
+      'city' => $request->getParam('city'),
+      'postal_code' => $request->getParam('postal_code'),
+    ]);
+
+    $order = $customer->orders()->create([
+      'hash' => $hash,
+      'paid' => false,
+      'total' => $this->basket->subTotal()+12,
+      'address_id' => $address->id
+    ]);
+
+    // $allItems = $this->basket->all()
+
+    $order->products()->saveMany(
+      $this->basket->all(), //$allItems
+      $this->getQuantities($this->basket->all()) //$allItems
+    );
+  }
+
+    protected function getQuantities($items){
+      $quantities = [];
+
+      foreach ($items as $item){
+        $quantities[] = ['quantity' => $item->quantity];
+      }
+
+      return $quantities;
     }
 
-    die('create order');
-  }
 }
