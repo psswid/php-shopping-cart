@@ -13,6 +13,8 @@ use Cart\Validation\Forms\OrderForm;
 use Cart\Validation\Contracts\ValidatorInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Braintree_Transaction;
+
 
 class OrderController{
 
@@ -43,6 +45,10 @@ class OrderController{
 
     if(!$this->basket->subTotal()){
       return $response->withRedirect($this->router->pathFor('cart.index'));
+    }
+
+    if(!$request->getParam('payment_method_nonce')){
+      return $response->withRedirect($this->router->pathFor('order.index'));
     }
 
     $validation = $this->validator->validate($request, OrderForm::rules());
@@ -82,6 +88,34 @@ class OrderController{
       $this->basket->all(), //$allItems
       $this->getQuantities($this->basket->all()) //$allItems
     );
+
+    $result = Braintree_Transaction::sale([
+      'amount' => $this->basket->subTotal() + 12,
+      'paymentMethodNonce' => $request->getParam('payment_method_nonce'),
+      'options' => [
+        'submitForSettlement' => true
+      ]
+    ]);
+
+    $event = new \Cart\Events\OrderWasCreated($order, $this->basket);
+
+    if(!$result->success){
+      $event->attach(new \Cart\Handlers\RecordFailedPayment);
+      $event->dispatch();
+
+      return $response->withRedirect($this->router->pathFor('order.index'));
+    }
+
+    $event->attach([
+      new \Cart\Handlers\MarkOrderPaid,
+      new \Cart\Handlers\RecordSuccessfulPayment($result->transaction->id),
+      new \Cart\Handlers\UpdateStock,
+      new \Cart\Handlers\EmptyBasket,
+    ]);
+
+    $event->dispatch();
+
+    var_dump($event);
   }
 
     protected function getQuantities($items){

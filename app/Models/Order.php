@@ -5,6 +5,7 @@ namespace Cart\Models;
 use Illuminate\Database\Eloquent\Model;
 use Cart\Models\Address;
 use Cart\Models\Product;
+use Cart\Models\Payment;
 
 
 class Order extends Model{
@@ -26,4 +27,8 @@ class Order extends Model{
     return $this->belongsToMany(Product::class, 'orders_products')->withPivot('quantity');
   }
 
+  public function payment(){
+
+    return $this->hasOne(Payment::class);
+  }
 }

@@ -14,6 +14,7 @@ use Cart\Validation\Validator;
 use Cart\Models\Order;
 use Cart\Models\Customer;
 use Cart\Models\Address;
+use Cart\Models\Payment;
 
 return [
   //'router'  => get(Slim\Router::class), <= as that, can't recognize router
@@ -45,6 +46,9 @@ return [
   },
   Address::class => function(ContainerInterface $c){
     return new Address;
+  },
+  Payment::class => function(ContainerInterface $c){
+    return new Payment;
   },
   Basket::class => function(ContainerInterface $c){
     return new Basket(
