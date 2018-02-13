@@ -47,13 +47,13 @@ class OrderController{
 
     $validation = $this->validator->validate($request, OrderForm::rules());
 
-    // if($validation->fails()){
-    //
-    //   // var_dump($validation->errors);
-    //   // die();
-    //
-    //   return $response->withRedirect($this->router->pathFor('order.index'));
-    // }
+    if($validation->fails()){
+
+      // var_dump($validation->errors);
+      // die();
+
+      return $response->withRedirect($this->router->pathFor('order.index'));
+    }
 
     $hash = bin2hex(random_bytes(32));
 

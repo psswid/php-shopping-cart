@@ -91,6 +91,14 @@
           </div>
 
         </div>
+
+        <h3>Payments</h3>
+        <hr>
+        <div id="payment">
+
+        </div>
+
+
       </div>
       <div class="col-md-4">
         <br><br>
@@ -106,4 +114,24 @@
       </div>
     </div>
   </form>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://js.braintreegateway.com/js/braintree-2.32.1.min.js"></script>
+  <script>
+    $.ajax({
+      url: '{{ path_for('braintree.token') }}',
+      type: 'get',
+      dataType: 'json'
+    }).done(function (data){
+      braintree.setup(data.token, 'dropin', {
+        container: 'payment'
+        });
+    });
+  </script>
+  {# note: The SSL certificate used to load resources from https://api.sandbox.braintreegateway.com will be distrusted in browsers (checked Opera and Chrome). Issue track : https://github.com/braintree/braintree-web/issues/343
+
+  Timestamp: 13.02.2018
+  Can only enter card nr and date of expiration, no field to enter cvv nr and postal code. 
+#}
 {% endblock %}
