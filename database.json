@@ -1,0 +1,10 @@
+/**
+ Export to JSON plugin for PHPMyAdmin
+ @version 0.1
+ */
+
+// Database 'cart'
+
+// cart.products
+
+[{"id":"1","title":"Good product","slug":"good-product","description":"Some text about good product.","price":"10","image":"http:\/\/via.placeholder.com\/350x150?text=product","stock":"5","created_at":"2018-02-07 12:15:12","updated_at":"2018-02-13 19:07:01"}, {"id":"2","title":"Premium product","slug":"premium-product","description":"Some text about premium product","price":"15.5","image":"http:\/\/via.placeholder.com\/350x150?text=product","stock":"3","created_at":"2018-02-07 12:15:12","updated_at":"2018-02-15 13:21:10"}, {"id":"3","title":"Cool product","slug":"cool-product","description":"Some text about cool product.","price":"17","image":"http:\/\/via.placeholder.com\/350x150?text=product","stock":"7","created_at":"2018-02-07 12:19:50","updated_at":"2018-02-15 13:21:10"}, {"id":"4","title":"Super product","slug":"super-product","description":"Some text about super product","price":"32.2","image":"http:\/\/via.placeholder.com\/350x150?text=product","stock":"1","created_at":"2018-02-07 12:19:50","updated_at":"2018-02-15 13:21:10"}]
